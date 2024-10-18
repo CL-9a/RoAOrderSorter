@@ -10,13 +10,12 @@ export class DropZone extends LitElement {
       display: block;
       width: 400px;
       height: 100px;
-      border: 2px dashed #0087F7;
+      border: 2px dashed rgba(0, 0, 0, 0.2);
+      background-color: rgba(0, 0, 0, 0.1);
       border-radius: 10px;
-      background-color: #F9F9F9;
       text-align: center;
       line-height: 100px;
       font-size: 16px;
-      color: #333;
       cursor: pointer;
       transition: background-color 0.3s ease;
     }

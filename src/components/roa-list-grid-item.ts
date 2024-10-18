@@ -8,6 +8,9 @@ export class RoaListGridItem extends LitElement {
   @property({ type: String }) path!: string;
 
   static styles = css`
+    :host {
+      color: black;
+    }
     img {
       width: 56px;
       height: 40px;

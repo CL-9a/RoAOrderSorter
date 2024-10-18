@@ -21,7 +21,7 @@ jobs:
       - name: Merge data into main
         run: |
           git fetch origin
-          git merge origin/data --no-ff
+          git merge origin/data
 
       - name: Install dependencies
         run: yarn install

@@ -33,7 +33,7 @@ export class RoaListGridItem extends LitElement {
 
         return html`
           <div title="${data.wsId}: ${data.data?.title || "<no data>"}">
-            <img loading="lazy" src=${`${import.meta.env.BASE_URL}/wsdata/previewImages/${data.wsId}.png`}></img>
+            <img loading="lazy" src=${`${import.meta.env.BASE_URL}/wsdata/previewImages/${data.wsId}.png`} alt=${data.data?.title.slice(-5) || "no data"}></img>
           </div>
         `;
       },

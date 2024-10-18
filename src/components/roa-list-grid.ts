@@ -58,7 +58,7 @@ export class RoaListGrid extends LitElement {
   stashController!: StashController;
 
   static styles = css`
-    .container {
+    :host {
       display: flex;
       gap: 10px;
     }
@@ -75,6 +75,7 @@ export class RoaListGrid extends LitElement {
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
+      flex-grow: 1;
       gap: 16px;
     }
 
@@ -124,92 +125,90 @@ export class RoaListGrid extends LitElement {
     const grids = this.getGrids();
 
     return html`
-      <div class="container">
-        <div class="grid-container">
-          ${repeat(
-            grids,
-            (_, gridIndex) => html`
-              <div>
-                <div class="grid-header">
-                  Page ${gridIndex + 1}/${grids.length}
-                </div>
-                <div class="grid">
-                  ${repeat(
-                    grids[gridIndex],
-                    (item) => item,
-                    (item, itemIndex) => {
-                      if (!item) {
-                        return html`<div class="grid-item empty"></div>`;
-                      }
-
-                      const index = gridIndex * 15 + itemIndex;
-
-                      return html`
-                        <roa-list-grid-item
-                          .path=${item}
-                          class="grid-item"
-                          draggable="true"
-                          @click=${(e: MouseEvent) => this.onClick(e, index)}
-                          @dragstart=${(e: DragEvent) =>
-                            this.handleDragStart(e, index, false)}
-                          @dragover=${this.handleDragOver}
-                          @drop=${(e: DragEvent) => this.handleDrop(e, index)}
-                          @dragend=${this.handleDragEnd}
-                        >
-                        </roa-list-grid-item>
-                      `;
-                    },
-                  )}
-                </div>
+      <div class="grid-container">
+        ${repeat(
+          grids,
+          (_, gridIndex) => html`
+            <div>
+              <div class="grid-header">
+                Page ${gridIndex + 1}/${grids.length}
               </div>
+              <div class="grid">
+                ${repeat(
+                  grids[gridIndex],
+                  (item) => item,
+                  (item, itemIndex) => {
+                    if (!item) {
+                      return html`<div class="grid-item empty"></div>`;
+                    }
+
+                    const index = gridIndex * 15 + itemIndex;
+
+                    return html`
+                      <roa-list-grid-item
+                        .path=${item}
+                        class="grid-item"
+                        draggable="true"
+                        @click=${(e: MouseEvent) => this.onClick(e, index)}
+                        @dragstart=${(e: DragEvent) =>
+                          this.handleDragStart(e, index, false)}
+                        @dragover=${this.handleDragOver}
+                        @drop=${(e: DragEvent) => this.handleDrop(e, index)}
+                        @dragend=${this.handleDragEnd}
+                      >
+                      </roa-list-grid-item>
+                    `;
+                  },
+                )}
+              </div>
+            </div>
+          `,
+        )}
+      </div>
+
+      <div>
+        <trash-can
+          draggable="false"
+          @drop=${this.trashcanDrop}
+          @dragover=${(e: DragEvent) => e.preventDefault()}
+        ></trash-can>
+        <div
+          class="stash"
+          style="height: 100%"
+          @drop=${(e: DragEvent) => this.stashDrop(e, -1)}
+          @dragover=${(e: DragEvent) => e.preventDefault()}
+          @dragend=${this.handleDragEnd}
+        >
+          <h4>Stash</h4>
+          ${this.stashController.value.length === 0
+            ? html`
+                <div
+                  class="grid-item"
+                  draggable="false"
+                  @drop=${(e: DragEvent) => this.stashDrop(e, 0)}
+                  @dragover=${this.handleDragOver}
+                  @dragend=${this.handleDragEnd}
+                >
+                  +
+                </div>
+              `
+            : nothing}
+          ${repeat(
+            this.stashController.value,
+            (item, index) => html`
+              <roa-list-grid-item
+                .path=${item}
+                class="grid-item"
+                draggable="true"
+                @dragstart="${(e: DragEvent) =>
+                  this.handleDragStart(e, index, true)}"
+                @dragover="${this.handleDragOver}"
+                @drop="${(e: DragEvent) => this.stashDrop(e, index)}"
+                @dragend="${this.handleDragEnd}"
+              >
+              </roa-list-grid-item>
             `,
           )}
-        </div>
-
-        <div>
-          <trash-can
-            draggable="false"
-            @drop=${this.trashcanDrop}
-            @dragover=${(e: DragEvent) => e.preventDefault()}
-          ></trash-can>
-          <div
-            class="stash"
-            style="height: 100%"
-            @drop=${(e: DragEvent) => this.stashDrop(e, -1)}
-            @dragover=${(e: DragEvent) => e.preventDefault()}
-            @dragend=${this.handleDragEnd}
-          >
-            <h4>Stash</h4>
-            ${this.stashController.value.length === 0
-              ? html`
-                  <div
-                    class="grid-item"
-                    draggable="false"
-                    @drop=${(e: DragEvent) => this.stashDrop(e, 0)}
-                    @dragover=${this.handleDragOver}
-                    @dragend=${this.handleDragEnd}
-                  >
-                    +
-                  </div>
-                `
-              : nothing}
-            ${repeat(
-              this.stashController.value,
-              (item, index) => html`
-                <roa-list-grid-item
-                  .path=${item}
-                  class="grid-item"
-                  draggable="true"
-                  @dragstart="${(e: DragEvent) =>
-                    this.handleDragStart(e, index, true)}"
-                  @dragover="${this.handleDragOver}"
-                  @drop="${(e: DragEvent) => this.stashDrop(e, index)}"
-                  @dragend="${this.handleDragEnd}"
-                >
-                </roa-list-grid-item>
-              `,
-            )}
-          </div>
         </div>
       </div>
     `;

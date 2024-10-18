@@ -47,6 +47,7 @@ export class RoaSorter extends LitElement {
 
   static styles = css`
     :host {
+      width: 100%;
       max-width: 1280px;
       margin: 0 auto;
       padding: 2rem;

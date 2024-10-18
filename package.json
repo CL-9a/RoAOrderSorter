@@ -1,0 +1,28 @@
+{
+  "name": "webapp",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "buildyolo": "vite build",
+    "preview": "vite preview",
+    "prettier": "prettier --write ."
+  },
+  "dependencies": {
+    "@lit-labs/signals": "^0.1.1",
+    "@lit/task": "^1.0.1",
+    "@placemarkio/flat-drop-files": "^1.0.2",
+    "browser-fs-access": "^0.35.0",
+    "idb": "^8.0.0",
+    "idb-keyval": "^6.2.1",
+    "lit": "^3.2.0"
+  },
+  "devDependencies": {
+    "@types/wicg-file-system-access": "^2023.10.5",
+    "prettier": "^3.3.3",
+    "typescript": "^5.5.3",
+    "vite": "^5.4.8"
+  }
+}

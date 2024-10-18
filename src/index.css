@@ -17,6 +17,9 @@ a {
 a:hover {
   color: #fff;
 }
+a:visited {
+  color: #fff;
+}
 
 body {
   background-color: #534388;

@@ -59,7 +59,9 @@ export class RoaSorter extends LitElement {
     return html`
       <div style="display: flex; flex-direction: row; justify-content: space-between; height: 150px;">
         <div>
-          <h1>Roa sorter (${this.type})</h1>
+          <h1>
+            <a href=${import.meta.env.BASE_URL} style="color: white;">Roa sorter</a> (${this.type})
+            </h1>
           <div>
             ${
               this.loadedFile

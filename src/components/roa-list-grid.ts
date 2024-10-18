@@ -127,10 +127,10 @@ export class RoaListGrid extends LitElement {
 
     return html`
       <div>
-        <span>
+        <div>
           <input id="insertPref" type="checkbox" ?checked=${this.insertInsteadOfSwap} @change=${(e: InputEvent) => this.insertInsteadOfSwap = (e.target as HTMLInputElement)?.checked}></input>
           <label for="insertPref">Insert instead of swap</label>
-        </span>
+        </div>
       </div>
       <div class="container">
         <div class="grid-container">
@@ -219,6 +219,9 @@ export class RoaListGrid extends LitElement {
             )}
           </div>
         </div>
+      </div>
+      <div>
+        Shift+click to send to stash, Ctrl+click to delete
       </div>
     `;
   }

@@ -72,7 +72,7 @@ export class RoaSorter extends LitElement {
                         @filesDropped=${this.onFilesDropped}
                         @click=${this.clickZone}
                       >
-                        Drop or select order.roa
+                        Drop or click to select order.roa
                       </drop-zone>
                       ${this.canTryGettingPermission
                         ? html`

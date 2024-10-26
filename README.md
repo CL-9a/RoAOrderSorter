@@ -2,7 +2,11 @@
 
 A tool to read and update `order.roa` with incredible features such as drag'n'drop
 
-**You should make a copy of your `order.roa` file just in case** but as far as I tested it works.
+You can usually find `order.roa` in `%LocalAppData%\RivalsofAether\workshop` (copy-pasting this in the Windows File Explorer address bar should work). You might need to copy it somewhere else (eg. Desktop) so that Chrome can access it.
+
+**You should make a copy of your `order.roa` file just in case anyway** but as far as I tested it works.
+
+---
 
 You need to restart the game for changes to take effect (I was hoping the game would reload it each time it needed it but I guess not.)
 
@@ -17,4 +21,3 @@ Built with [lit](https://lit.dev/) and the [FS browser API](https://developer.ch
 The code is a bit messy as the lit webcomponents actually depend on global singletons. The actual decoding is in `src/RoaReader.ts` (the parsing is questionable too but hey it works.)
 
 Data is straight up crawled from the workshop.
-

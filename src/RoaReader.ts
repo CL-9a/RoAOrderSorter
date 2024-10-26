@@ -64,7 +64,8 @@ export class RoaReader {
         currGroup = [];
 
         let _expectedCount = RoaReader.readPreamble(view, i);
-        if (!_expectedCount) {
+        if (_expectedCount === false) {
+          console.error("index:", i, "preamble:", view.slice(i, i + 6));
           throw new Error("Parse error (expected preamble after order.roa)");
         }
         expectedCount = _expectedCount;

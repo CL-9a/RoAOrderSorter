@@ -20,18 +20,18 @@ export class DropZone extends LitElement {
       transition: background-color 0.3s ease;
     }
 
-   :host:hover {
+    :host:hover {
       background-color: #f1f1f1;
     }
 
     :host.dragover {
-      background-color: #E3F7FF;
-      border-color: #00A5FF;
+      background-color: #e3f7ff;
+      border-color: #00a5ff;
     }
 
     :host.dragover::before {
       content: "Drop here";
-      color: #00A5FF;
+      color: #00a5ff;
       font-weight: bold;
     }
   `;

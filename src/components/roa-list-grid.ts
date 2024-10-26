@@ -128,7 +128,7 @@ export class RoaListGrid extends LitElement {
     return html`
       <div>
         <div>
-          <input id="insertPref" type="checkbox" ?checked=${this.insertInsteadOfSwap} @change=${(e: InputEvent) => this.insertInsteadOfSwap = (e.target as HTMLInputElement)?.checked}></input>
+          <input id="insertPref" type="checkbox" ?checked=${this.insertInsteadOfSwap} @change=${(e: InputEvent) => (this.insertInsteadOfSwap = (e.target as HTMLInputElement)?.checked)}></input>
           <label for="insertPref">Insert instead of swap</label>
         </div>
       </div>
@@ -188,19 +188,21 @@ export class RoaListGrid extends LitElement {
             @dragend=${this.handleDragEnd}
           >
             <h4>Stash</h4>
-            ${this.stashController.value.length === 0
-              ? html`
-                  <div
-                    class="grid-item"
-                    draggable="false"
-                    @drop=${(e: DragEvent) => this.stashDrop(e, 0)}
-                    @dragover=${this.handleDragOver}
-                    @dragend=${this.handleDragEnd}
-                  >
-                    +
-                  </div>
-                `
-              : nothing}
+            ${
+              this.stashController.value.length === 0
+                ? html`
+                    <div
+                      class="grid-item"
+                      draggable="false"
+                      @drop=${(e: DragEvent) => this.stashDrop(e, 0)}
+                      @dragover=${this.handleDragOver}
+                      @dragend=${this.handleDragEnd}
+                    >
+                      +
+                    </div>
+                  `
+                : nothing
+            }
             ${repeat(
               this.stashController.value,
               (item, index) => html`
@@ -322,8 +324,7 @@ export class RoaListGrid extends LitElement {
         main.log(`Moving i${oldIndex} to ${newIndex}`);
         const movedItem = main.reader.removeElem(this.type, oldIndex);
         main.reader.addElem(this.type, newIndex, movedItem);
-      }
-      else {
+      } else {
         main.log(`Switching items ${oldIndex} and ${newIndex}`);
         main.reader.switchElems(this.type, oldIndex, newIndex);
       }

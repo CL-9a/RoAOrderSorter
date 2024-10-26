@@ -21,3 +21,10 @@ Built with [lit](https://lit.dev/) and the [FS browser API](https://developer.ch
 The code is a bit messy as the lit webcomponents actually depend on global singletons. The actual decoding is in `src/RoaReader.ts` (the parsing is questionable too but hey it works.)
 
 Data is straight up crawled from the workshop.
+
+## Contributing
+
+You can open a development environment entirely in your browser using Stackblitz: [https://stackblitz.com/~/github.com/CL-9a/RoAOrderSorter](https://stackblitz.com/~/github.com/CL-9a/RoAOrderSorter). This is probably the easiest way to get started.
+
+If you prefer to run things locally and are webdeveloper, you should just be able to run `yarn` then `yarn dev`.
+Or if you don't have node installed but you use Docker/Podman, you should be able to run the dev server in a temporary container with `docker run --rm -it -v "$PWD:/app" --workdir /app node:latest sh -c "yarn; yarn run dev"`.

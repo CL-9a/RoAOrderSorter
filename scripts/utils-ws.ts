@@ -3,7 +3,12 @@ import * as path from "jsr:@std/path";
 import { TextLineStream } from "jsr:@std/streams/text-line-stream";
 import { JsonParseStream } from "jsr:@std/json/parse-stream";
 import { JsonStringifyStream } from "jsr:@std/json/stringify-stream";
-import { fetchWithTimeout, sleep, log } from "./utils.ts";
+import {
+  fetchWithTimeout,
+  sleep,
+  log,
+  retryWithExponentialBackoff,
+} from "./utils.ts";
 
 export const getItemData = async (id: string) => {
   const page = await fetchWithTimeout(
@@ -73,11 +78,16 @@ export const crawlUntil = async (
   let i = 0;
   while (true) {
     console.log(`downloading page ${i}...`);
-    const page = await getPage(tag, i);
-    if (stopPredicate(page) === true) break;
-
+    const page = await retryWithExponentialBackoff(
+      () => getPage(tag, i),
+      3,
+      1500,
+    );
     ids.push(...page);
     console.log(`downloading page ${i}... Ok, got ${page.length} items.`);
+
+    if (stopPredicate(page) === true) break;
+
     i++;
     await sleep(1000);
   }

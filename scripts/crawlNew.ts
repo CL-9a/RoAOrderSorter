@@ -43,7 +43,7 @@ const ids = await (async () => {
 })();
 
 for (const id of ids) {
-  if (knownIds.has(id)) continue;
+  if (knownIds.includes(id)) continue;
 
   log(`downloading item ${id}...`);
   const item = await retryWithExponentialBackoff(

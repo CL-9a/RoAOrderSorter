@@ -1,0 +1,45 @@
+name: Fetch new workshop items daily
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "06 22 * * *"
+
+permissions:
+  contents: write
+
+env:
+  WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
+  ERRORS_WEBHOOK_URL: ${{ secrets.ERRORS_WEBHOOK_URL }}
+  OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: "data"
+
+      - uses: denoland/setup-deno@v2
+        with:
+          working-directory: ./scripts
+
+      - name: Run script
+        run: deno run --allow-net --allow-read=../public/ --allow-write=../public/ crawlNew.ts "stages"
+        working-directory: ./scripts
+
+      - name: Run script
+        run: deno run --allow-net --allow-read=../public/ --allow-write=../public/ crawlNew.ts "characters"
+        working-directory: ./scripts
+
+      - name: Commit and push if it changed
+        run: |-
+          git config user.name "Automated"
+          git config user.email "actions@users.noreply.github.com"
+          git add -f public/wsdata
+          timestamp=$(date -u)
+          git commit -m "Add new WS items (${timestamp})" || exit 0
+          git push

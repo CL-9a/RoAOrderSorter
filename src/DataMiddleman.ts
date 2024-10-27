@@ -18,7 +18,7 @@ export class WsDataMiddleman {
   }
 
   private async load(group: Groups) {
-    const url = `/wsdata/${group}.ndjson`;
+    const url = `${import.meta.env.BASE_URL}/wsdata/${group}.ndjson`;
     addLog(`Loading data for ${group}...`);
     for await (const wsItem of streamNDJSON(url)) {
       // TODO validate

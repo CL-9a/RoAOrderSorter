@@ -8,6 +8,9 @@ export class RoaListGridItem extends LitElement {
   @property({ type: String }) path!: string;
 
   static styles = css`
+    :host {
+      color: black;
+    }
     img {
       width: 56px;
       height: 40px;
@@ -30,7 +33,7 @@ export class RoaListGridItem extends LitElement {
 
         return html`
           <div title="${data.wsId}: ${data.data?.title || "<no data>"}">
-            <img loading="lazy" src=${`/wsdata/previewImages/${data.wsId}.png`}></img>
+            <img loading="lazy" src=${`${import.meta.env.BASE_URL}/wsdata/previewImages/${data.wsId}.png`} alt=${data.data?.title.slice(-5) || "no data"}></img>
           </div>
         `;
       },

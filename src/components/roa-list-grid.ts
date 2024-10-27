@@ -55,6 +55,7 @@ export class TrashCan extends LitElement {
 @customElement("roa-list-grid")
 export class RoaListGrid extends LitElement {
   @property({ type: String }) type!: Groups;
+  @state() insertInsteadOfSwap: boolean = false;
   stashController!: StashController;
 
   static styles = css`
@@ -75,6 +76,7 @@ export class RoaListGrid extends LitElement {
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
+      flex-grow: 1;
       gap: 16px;
     }
 
@@ -124,6 +126,12 @@ export class RoaListGrid extends LitElement {
     const grids = this.getGrids();
 
     return html`
+      <div>
+        <div>
+          <input id="insertPref" type="checkbox" ?checked=${this.insertInsteadOfSwap} @change=${(e: InputEvent) => (this.insertInsteadOfSwap = (e.target as HTMLInputElement)?.checked)}></input>
+          <label for="insertPref">Insert instead of swap</label>
+        </div>
+      </div>
       <div class="container">
         <div class="grid-container">
           ${repeat(
@@ -180,19 +188,21 @@ export class RoaListGrid extends LitElement {
             @dragend=${this.handleDragEnd}
           >
             <h4>Stash</h4>
-            ${this.stashController.value.length === 0
-              ? html`
-                  <div
-                    class="grid-item"
-                    draggable="false"
-                    @drop=${(e: DragEvent) => this.stashDrop(e, 0)}
-                    @dragover=${this.handleDragOver}
-                    @dragend=${this.handleDragEnd}
-                  >
-                    +
-                  </div>
-                `
-              : nothing}
+            ${
+              this.stashController.value.length === 0
+                ? html`
+                    <div
+                      class="grid-item"
+                      draggable="false"
+                      @drop=${(e: DragEvent) => this.stashDrop(e, 0)}
+                      @dragover=${this.handleDragOver}
+                      @dragend=${this.handleDragEnd}
+                    >
+                      +
+                    </div>
+                  `
+                : nothing
+            }
             ${repeat(
               this.stashController.value,
               (item, index) => html`
@@ -211,6 +221,9 @@ export class RoaListGrid extends LitElement {
             )}
           </div>
         </div>
+      </div>
+      <div>
+        Shift+click to send to stash, Ctrl+click to delete
       </div>
     `;
   }
@@ -307,8 +320,14 @@ export class RoaListGrid extends LitElement {
       main.log(`Adding item ${movedItem} from stash`);
       main.reader.addElem(this.type, newIndex, movedItem);
     } else {
-      main.log(`Switching items ${oldIndex} and ${newIndex}`);
-      main.reader.switchElems(this.type, oldIndex, newIndex);
+      if (this.insertInsteadOfSwap) {
+        main.log(`Moving i${oldIndex} to ${newIndex}`);
+        const movedItem = main.reader.removeElem(this.type, oldIndex);
+        main.reader.addElem(this.type, newIndex, movedItem);
+      } else {
+        main.log(`Switching items ${oldIndex} and ${newIndex}`);
+        main.reader.switchElems(this.type, oldIndex, newIndex);
+      }
     }
 
     this.draggedElementIndex = null;

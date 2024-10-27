@@ -47,6 +47,7 @@ export class RoaSorter extends LitElement {
 
   static styles = css`
     :host {
+      width: 100%;
       max-width: 1280px;
       margin: 0 auto;
       padding: 2rem;
@@ -58,7 +59,9 @@ export class RoaSorter extends LitElement {
     return html`
       <div style="display: flex; flex-direction: row; justify-content: space-between; height: 150px;">
         <div>
-          <h1>Roa sorter (${this.type})</h1>
+          <h1>
+            <a href=${import.meta.env.BASE_URL} style="color: white;">Roa sorter</a> (${this.type})
+            </h1>
           <div>
             ${
               this.loadedFile
@@ -71,7 +74,7 @@ export class RoaSorter extends LitElement {
                         @filesDropped=${this.onFilesDropped}
                         @click=${this.clickZone}
                       >
-                        Drop or select order.roa
+                        Drop or click to select order.roa
                       </drop-zone>
                       ${this.canTryGettingPermission
                         ? html`

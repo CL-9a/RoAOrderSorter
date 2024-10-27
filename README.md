@@ -20,7 +20,7 @@ Built with [lit](https://lit.dev/) and the [FS browser API](https://developer.ch
 
 The code is a bit messy as the lit webcomponents actually depend on global singletons. The actual decoding is in `src/RoaReader.ts` (the parsing is questionable too but hey it works.)
 
-Data is straight up crawled from the workshop.
+The data is scraped from the workshop via the scripts in `/scripts` running on a cron on Github Actions and saved into the `data` branch ([git-scraping](https://simonwillison.net/2020/Oct/9/git-scraping/).)
 
 ## Contributing
 

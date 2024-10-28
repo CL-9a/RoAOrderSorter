@@ -183,21 +183,28 @@ export class RoaSorter extends LitElement {
   }
 
   private async process(file: FileWithHandle) {
-    console.log("process", file);
-    const ab = await file.arrayBuffer();
+    try {
+      console.log("process", file);
+      const ab = await file.arrayBuffer();
 
-    if (RoaReader.checkFile(ab)) {
-      await main.reader.loadFile(ab);
-      if (file.handle) {
-        main.setFileHandle("order", file.handle);
+      if (RoaReader.checkFile(ab)) {
+        await main.reader.loadFile(ab);
+        if (file.handle) {
+          main.setFileHandle("order", file.handle);
+        }
+        this.loadedFile = true;
+        this.triggerUpdate();
+      } else if (RoaCategories.checkFile(ab)) {
+        new RoaCategories(ab);
+      } else {
+        console.warn("Unhandled file", file);
+        main.log(`Unable to parse file "${file.name}". Ignoring.`);
       }
-      this.loadedFile = true;
-      this.triggerUpdate();
-    } else if (RoaCategories.checkFile(ab)) {
-      new RoaCategories(ab);
-    } else {
-      console.warn("Unhandled file", file);
-      main.log(`Unable to parse file "${file.name}". Ignoring.`);
+    } catch (e) {
+      alert(
+        `Oops, something broke while parsing file "${file.name}"! Please check the console and open an issue on the Github repo!`,
+      );
+      console.error(e);
     }
   }
 

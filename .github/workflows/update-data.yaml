@@ -8,13 +8,8 @@ on:
 permissions:
   contents: write
 
-env:
-  WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
-  ERRORS_WEBHOOK_URL: ${{ secrets.ERRORS_WEBHOOK_URL }}
-  OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-
 jobs:
-  build:
+  fetch:
     runs-on: ubuntu-latest
 
     steps:

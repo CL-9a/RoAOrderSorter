@@ -2,6 +2,14 @@ name: Build github pages site
 
 on:
   push:
+    paths:
+      - "src/**"
+      - "public/**"
+      - "**.html"
+      - "package.json"
+      - "yarn.lock"
+      - "vite.config.js"
+      - "tsconfig.json"
 
 permissions:
   contents: write

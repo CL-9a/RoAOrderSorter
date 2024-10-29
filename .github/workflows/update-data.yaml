@@ -31,6 +31,7 @@ jobs:
         working-directory: ./scripts
 
       - name: Commit and push if it changed
+        id: commit-and_push
         run: |-
           git config user.name "Automated"
           git config user.email "actions@users.noreply.github.com"
@@ -38,3 +39,7 @@ jobs:
           timestamp=$(date -u)
           git commit -m "Add new WS items (${timestamp})" || exit 0
           git push
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      - if: steps.commit-and-push.outputs.changed == 'true'
+        uses: ./.github/workflows/ci.yaml

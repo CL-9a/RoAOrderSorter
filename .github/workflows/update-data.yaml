@@ -45,4 +45,7 @@ jobs:
   build:
     needs: fetch
     if: needs.fetch.outputs.changed == 'true'
+    permissions:
+      pages: write
+      id-token: write
     uses: ./.github/workflows/build.yaml

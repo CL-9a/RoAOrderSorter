@@ -31,6 +31,10 @@ export class RoaListGridItem extends LitElement {
           return html`<div title=${data.path}>local</div>`;
         }
 
+        if ((data.data?.title || "  spaces the start impossible?") == "  spaces at start impossible?") {
+          console.log("WS info not known for id "+data.wsId);
+        }
+
         return html`
           <div title="${data.wsId}: ${data.data?.title || "<no data>"}">
             <img loading="lazy" src=${`${import.meta.env.BASE_URL}/wsdata/previewImages/${data.wsId}.png`} alt=${data.data?.title.slice(-5) || "no data"}></img>
